@@ -72,6 +72,23 @@
             background-color: var(--accent);
         }
 
+        .section-title {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+
         p {
             margin-bottom: 1.5rem;
             color: var(--light-text);
@@ -185,8 +202,9 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            /* background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); */
-             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('./rocket.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('./rocket.jpg');
+            background-size: cover;
+            background-position: center;
             padding-top: 80px;
             position: relative;
             overflow: hidden;
@@ -277,23 +295,19 @@
 
         .about-image {
             position: relative;
-            height: 500px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            height: 600px;
+            background: var(--secondary);
             display: flex;
             align-items: center;
             justify-content: center;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
         }
 
-        .about-image:before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            right: -20px;
-            bottom: -20px;
-            border: 1px solid rgba(58, 110, 165, 0.3);
-            z-index: -1;
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* Портфолио */
@@ -354,6 +368,7 @@
             aspect-ratio: 4/3;
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: var(--transition);
+            cursor: pointer;
         }
 
         .portfolio-item:hover {
@@ -531,6 +546,195 @@
             color: var(--light-text);
         }
 
+        /* Стили для модального окна и галереи */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: var(--secondary);
+            margin: 50px auto;
+            max-width: 1200px;
+            width: 90%;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
+        }
+
+        .modal-body {
+            padding: 3rem;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text);
+        }
+
+        /* Стили для галереи проектов */
+        .project-gallery {
+            margin-bottom: 2rem;
+        }
+
+        .gallery-main {
+            position: relative;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--dark-gray);
+            height: 70vh;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .main-media {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-main img,
+        .gallery-main video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .gallery-controls {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 1rem;
+        }
+
+        .gallery-prev,
+        .gallery-next {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .gallery-prev:hover,
+        .gallery-next:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .gallery-thumbnails {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+        }
+
+        .thumbnail {
+            flex: 0 0 auto;
+            width: 80px;
+            height: 60px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .thumbnail:hover {
+            opacity: 0.8;
+        }
+
+        .thumbnail.active {
+            opacity: 1;
+            border-color: var(--accent);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumbnail-video {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .thumbnail-video .video-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .project-info {
+            margin-top: 2rem;
+        }
+
+        .project-details {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .project-meta span {
+            font-size: 0.9rem;
+            color: var(--light-text);
+        }
+
         /* Адаптивность */
         @media (max-width: 768px) {
             h1 {
@@ -583,6 +787,35 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+
+            .gallery-main {
+                height: 50vh;
+            }
+
+            .gallery-controls {
+                padding: 0 0.5rem;
+            }
+
+            .gallery-prev,
+            .gallery-next {
+                width: 35px;
+                height: 35px;
+                font-size: 1.2rem;
+            }
+
+            .thumbnail {
+                width: 60px;
+                height: 45px;
+            }
+
+            .modal-body {
+                padding: 2rem 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px auto;
+            }
         }
 
         @media (max-width: 480px) {
@@ -596,6 +829,15 @@
 
             .hero {
                 padding-top: 60px;
+            }
+
+            .gallery-main {
+                height: 40vh;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
         }
     </style>
@@ -623,12 +865,11 @@
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
-                <h1>3D ДИЗАЙНЕР</h1>
-                <h2>ВАСИЛИЙ ЗЯДИК</h2>
-                <p class="hero-subtitle">Создаю выразительные 3D-модели и визуализации для брендов, игр и архитектурных проектов. Специализируюсь на реалистичном моделировании и текстурировании.</p>
+                <h1>3D ХУДОЖНИК</h1>
+                <h2>ВАСИЛИЙ ЗЯДИК<br>(VASILII ZIADIK)</h2>
+                <p class="hero-subtitle">Профессиональный 3D художник с более чем 10-летним опытом создания высококачественных 3D моделей для различных задач</p>
                 <div class="hero-btns">
                     <a href="#portfolio" class="btn">Смотреть работы</a>
-                    <a href="#contact" class="btn btn-outline">Связаться со мной</a>
                 </div>
             </div>
         </div>
@@ -637,12 +878,14 @@
     <!-- Обо мне -->
     <section class="about" id="about">
         <div class="container">
-            <h2>Обо мне</h2>
+            <h2 class="section-title">Обо мне</h2>
             <div class="about-content">
                 <div class="about-text">
                     <h3>ПРОФЕССИОНАЛЬНЫЙ 3D ХУДОЖНИК</h3>
-                    <p>Более 10 лет создаю 3D-графику для различных отраслей: от архитектурной визуализации до игровых ассетов. Умею превращать сложные концепции в визуально привлекательные и функциональные модели.</p>
-                    <p>Работаю с полным циклом создания 3D-контента: моделирование, текстурирование, освещение, рендеринг и постобработка. Использую современные инструменты и методики для достижения наилучшего результата.</p>
+                    <p>Занимаюсь профессионально 3D моделированием более 10 лет и ориентирован на творчество и качество.
+                        Создаю 3D модели по чертежам, фотографиям и справочникам любой сложности для любых задач.</p>
+                    <p>Работаю с различными программами, включая Blender 3D, 3D-Coat и другие инструменты для
+                        моделирования, текстурирования и анимации.</p>
                     <div class="skills">
                         <div class="skill-item">
                             <div class="skill-name">
@@ -664,15 +907,6 @@
                         </div>
                         <div class="skill-item">
                             <div class="skill-name">
-                                <span>Визуализация</span>
-                                <span>88%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-level" style="width: 88%"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-name">
                                 <span>Анимация</span>
                                 <span>85%</span>
                             </div>
@@ -683,10 +917,7 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <div style="width: 100%; text-align: center; color: rgba(255,255,255,0.5);">
-                        <i class="fas fa-user" style="font-size: 5rem;"></i>
-                        <p style="margin-top: 1rem;">Василий Зядик</p>
-                    </div>
+                    <img src="./about.jpg" alt="Василий Зядик">
                 </div>
             </div>
         </div>
@@ -695,78 +926,138 @@
     <!-- Портфолио -->
     <section class="portfolio" id="portfolio">
         <div class="container">
-            <h2>Портфолио</h2>
+            <h2 class="section-title">Портфолио</h2>
             <div class="portfolio-filter">
                 <button class="filter-btn active" data-filter="all">Все работы</button>
-                <button class="filter-btn" data-filter="arch">Архитектура</button>
-                <button class="filter-btn" data-filter="product">Продукты</button>
+                <button class="filter-btn" data-filter="transport">Транспорт</button>
                 <button class="filter-btn" data-filter="characters">Персонажи</button>
+                <button class="filter-btn" data-filter="objects">Объекты</button>
                 <button class="filter-btn" data-filter="industrial">Промышленность</button>
             </div>
             <div class="portfolio-grid">
-                <!-- Архитектурный проект -->
-                <div class="portfolio-item" data-category="arch">
-                    <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #1a1a2e, #16213e); display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-building" style="font-size: 3rem;"></i>
-                    </div>
+                <!-- Локомотив ФД20-1562 -->
+                <div class="portfolio-item" data-category="transport">
+                    <img src="assets/img/Locomotive/vasilii-ziadik-fd20-1562.jpg" alt="Локомотив ФД20-1562" class="portfolio-img">
                     <div class="portfolio-overlay">
-                        <h3 class="portfolio-title">Современный жилой комплекс</h3>
-                        <p class="portfolio-category">Архитектура</p>
+                        <h3 class="portfolio-title">Локомотив ФД20-1562</h3>
+                        <p class="portfolio-category">Транспорт</p>
                     </div>
                 </div>
 
-                <!-- Продуктовый рендер -->
-                <div class="portfolio-item" data-category="product">
-                    <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #2d132c, #801336); display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-mobile-alt" style="font-size: 3rem;"></i>
-                    </div>
-                    <div class="portfolio-overlay">
-                        <h3 class="portfolio-title">Смартфон нового поколения</h3>
-                        <p class="portfolio-category">Продукты</p>
-                    </div>
-                </div>
-
-                <!-- Персонаж -->
+                <!-- Robot №17/1 -->
                 <div class="portfolio-item" data-category="characters">
-                    <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #0f4c75, #3282b8); display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-robot" style="font-size: 3rem;"></i>
-                    </div>
+                    <img src="assets/img/Robot №17/robot17_2.jpg" alt="Robot №17/1" class="portfolio-img">
                     <div class="portfolio-overlay">
-                        <h3 class="portfolio-title">Киберпанк-персонаж</h3>
+                        <h3 class="portfolio-title">Robot №17/1</h3>
                         <p class="portfolio-category">Персонажи</p>
                     </div>
                 </div>
 
-                <!-- Промышленность -->
-                <div class="portfolio-item" data-category="industrial">
-                    <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #1e5128, #4e9f3d); display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-cogs" style="font-size: 3rem;"></i>
-                    </div>
+                <!-- Револьвер "ZERO NINE" -->
+                <div class="portfolio-item" data-category="objects">
+                    <img src="assets/img/Zero Nine/smart_scope.jpg" alt="Револьвер ZERO NINE" class="portfolio-img">
                     <div class="portfolio-overlay">
-                        <h3 class="portfolio-title">Промышленный механизм</h3>
+                        <h3 class="portfolio-title">Револьвер "ZERO NINE"</h3>
+                        <p class="portfolio-category">Объекты</p>
+                    </div>
+                </div>
+
+                <!-- Шхуна "Роялист" -->
+                <div class="portfolio-item" data-category="transport">
+                    <img src="assets/img/Royalist/Royalist_model_3.JPG" alt="Шхуна Роялист" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Шхуна "Роялист"</h3>
+                        <p class="portfolio-category">Транспорт</p>
+                    </div>
+                </div>
+
+                <!-- Harley-Davidson -->
+                <div class="portfolio-item" data-category="transport">
+                    <img src="assets/img/Harley/HARLEY-DAVIDSON.jpg" alt="Harley-Davidson" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Harley-Davidson</h3>
+                        <p class="portfolio-category">Транспорт</p>
+                    </div>
+                </div>
+
+                <!-- Изометрический дом -->
+                <div class="portfolio-item" data-category="objects">
+                    <img src="assets/img/House/Isometric art house.png" alt="Изометрический дом" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Изометрический дом</h3>
+                        <p class="portfolio-category">Объекты</p>
+                    </div>
+                </div>
+
+                <!-- Граммофон -->
+                <div class="portfolio-item" data-category="objects">
+                    <img src="assets/img/Grammofone/Grammophone.png" alt="Граммофон" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Граммофон</h3>
+                        <p class="portfolio-category">Объекты</p>
+                    </div>
+                </div>
+
+                <!-- Промышленные клапаны -->
+                <div class="portfolio-item" data-category="industrial">
+                    <img src="assets/img/Factory/1 Mixproof Bottom Valve .png" alt="Промышленные клапаны" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Промышленные клапаны</h3>
                         <p class="portfolio-category">Промышленность</p>
                     </div>
                 </div>
 
-                <!-- Автомобиль -->
-                <div class="portfolio-item" data-category="product">
-                    <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #222831, #393e46); display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-car" style="font-size: 3rem;"></i>
-                    </div>
+                <!-- Промышленные системы -->
+                <div class="portfolio-item" data-category="industrial">
+                    <img src="assets/img/Factory/LIFT STATION1.png" alt="Промышленные системы" class="portfolio-img">
                     <div class="portfolio-overlay">
-                        <h3 class="portfolio-title">Концепт-кар будущего</h3>
-                        <p class="portfolio-category">Продукты</p>
+                        <h3 class="portfolio-title">Промышленные системы</h3>
+                        <p class="portfolio-category">Промышленность</p>
                     </div>
                 </div>
 
-                <!-- Фантастический персонаж -->
-                <div class="portfolio-item" data-category="characters">
-                    <div style="width: 100%; height: 100%; background: linear-gradient(45deg, #52057b, #892cdc); display: flex; align-items: center; justify-content: center; color: white;">
-                        <i class="fas fa-dragon" style="font-size: 3rem;"></i>
-                    </div>
+                <!-- Промышленные редукторы -->
+                <div class="portfolio-item" data-category="industrial">
+                    <img src="assets/img/Factory/gearbox 1.png" alt="Промышленные редукторы" class="portfolio-img">
                     <div class="portfolio-overlay">
-                        <h3 class="portfolio-title">Фантастическое существо</h3>
+                        <h3 class="portfolio-title">Промышленные редукторы</h3>
+                        <p class="portfolio-category">Промышленность</p>
+                    </div>
+                </div>
+
+                <!-- Промышленное оборудование -->
+                <div class="portfolio-item" data-category="industrial">
+                    <img src="assets/img/Factory/Handheld sensor0065.png" alt="Промышленное оборудование" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Промышленное оборудование</h3>
+                        <p class="portfolio-category">Промышленность</p>
+                    </div>
+                </div>
+
+                <!-- Берти и Брамбл -->
+                <div class="portfolio-item" data-category="characters">
+                    <img src="assets/img/Bertie/berty.png" alt="Берти и Брамбл" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Берти и Брамбл</h3>
                         <p class="portfolio-category">Персонажи</p>
+                    </div>
+                </div>
+
+                <!-- Меха -->
+                <div class="portfolio-item" data-category="characters">
+                    <img src="assets/img/Mecha/model vs concept.jpg" alt="Меха" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Меха</h3>
+                        <p class="portfolio-category">Персонажи</p>
+                    </div>
+                </div>
+
+                <!-- Т-90 Моделирование -->
+                <div class="portfolio-item" data-category="transport">
+                    <img src="assets/img/Modeling/t90.jpg" alt="Т-90 Моделирование" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Т-90 Моделирование</h3>
+                        <p class="portfolio-category">Транспорт</p>
                     </div>
                 </div>
             </div>
@@ -776,7 +1067,7 @@
     <!-- Контакты -->
     <section class="contact" id="contact">
         <div class="container">
-            <h2>Контакты</h2>
+            <h2 class="section-title">Контакты</h2>
             <div class="contact-content">
                 <div class="contact-info">
                     <div class="contact-item">
@@ -803,7 +1094,7 @@
                         </div>
                         <div class="contact-text">
                             <h4>Телефон</h4>
-                            <p>+7 (902) 858-38-57</p>
+                            <p>+79028583857</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -846,12 +1137,255 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>© 2023 Василий Зядик. Все права защищены.</p>
+                <p>© 2025 Василий Зядик. Все права защищены.</p>
+                <p>Все работы в данном портфолио (моделирование, текстурирование, анимация) выполнены мной лично, без
+                    использования совместного труда.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Модальное окно для проектов с галереей -->
+    <div class="modal" id="project-modal">
+        <div class="modal-content">
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+            <div class="modal-body">
+                <h2 class="modal-title">Название проекта</h2>
+                
+                <!-- Галерея проекта -->
+                <div class="project-gallery">
+                    <!-- Основное изображение/видео -->
+                    <div class="gallery-main">
+                        <div class="main-media">
+                            <!-- Здесь будет отображаться основное изображение или видео -->
+                        </div>
+                        <div class="gallery-controls">
+                            <button class="gallery-prev"><i class="fas fa-chevron-left"></i></button>
+                            <button class="gallery-next"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Миниатюры галереи -->
+                    <div class="gallery-thumbnails">
+                        <!-- Миниатюры будут добавляться динамически -->
+                    </div>
+                </div>
+                
+                <div class="project-info">
+                    <p class="modal-description">Описание проекта будет здесь</p>
+                    <div class="project-details">
+                        <div class="project-meta">
+                            <span class="project-category">Категория: </span>
+                            <span class="project-date">Дата: </span>
+                            <span class="project-software">Программы: </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Данные для галереи каждого проекта с реальными путями к файлам
+        const projectData = {
+            'Локомотив ФД20-1562': {
+                category: 'Транспорт',
+                description: 'Детализированная 3D модель локомотива ФД20-1562, созданная по историческим чертежам. Модель включает высокодетализированные текстуры и анимацию механизмов.',
+                date: '2024',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Locomotive/vasilii-ziadik-fd20-1562.jpg', alt: 'Локомотив ФД20-1562 - вид спереди' },
+                    { type: 'image', src: 'assets/img/Locomotive/ФД20_1562_01.jpg', alt: 'Детализация локомотива' },
+                    { type: 'image', src: 'assets/img/Locomotive/ФД20_1562_2.jpg', alt: 'Вид сбоку' },
+                    { type: 'image', src: 'assets/img/Locomotive/ФД20_1562_3.jpg', alt: 'Детали механизмов' },
+                    { type: 'image', src: 'assets/img/Locomotive/fd20 ref.PNG', alt: 'Референсы и чертежи' }
+                ]
+            },
+            'Robot №17/1': {
+                category: 'Персонажи',
+                description: 'Футуристический робот с уникальным дизайном и анимацией. Модель включает риг для анимации и различные текстуры.',
+                date: '2024',
+                software: 'Blender, ZBrush, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Robot №17/robot17_2.jpg', alt: 'Robot №17/1 - основное изображение' },
+                    { type: 'image', src: 'assets/img/Robot №17/rob1.png', alt: 'Детализация модели' },
+                    { type: 'image', src: 'assets/img/Robot №17/prtscr.jpg', alt: 'Вирфрейм модель' }
+                ]
+            },
+            'Револьвер "ZERO NINE"': {
+                category: 'Объекты',
+                description: 'Концептуальный револьвер в стиле киберпанк. Высокополигональная модель с PBR текстурами.',
+                date: '2023',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Zero Nine/smart_scope.jpg', alt: 'Револьвер ZERO NINE' },
+                    { type: 'image', src: 'assets/img/Zero Nine/smart_scope2.jpg', alt: 'Детали револьвера' },
+                    { type: 'image', src: 'assets/img/Zero Nine/smart_scope3.jpg', alt: 'Материалы и текстуры' },
+                    { type: 'image', src: 'assets/img/Zero Nine/smart_scope4.jpg', alt: 'Альтернативный вид' },
+                    { type: 'video', src: 'assets/img/Zero Nine/smart_scope11.mp4', alt: '3D обзор модели' }
+                ]
+            },
+            'Шхуна "Роялист"': {
+                category: 'Транспорт',
+                description: 'Историческая парусная шхуна с детализированными парусами и такелажем. Модель подготовлена для использования в играх и визуализациях.',
+                date: '2023',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Royalist/Royalist_model_3.JPG', alt: 'Шхуна Роялист' },
+                    { type: 'image', src: 'assets/img/Royalist/Royalist.png', alt: '3D модель шхуны' },
+                    { type: 'image', src: 'assets/img/Royalist/schooner3.png', alt: 'Детали парусов' },
+                    { type: 'image', src: 'assets/img/Royalist/schooner5.png', alt: 'Текстуры и материалы' },
+                    { type: 'image', src: 'assets/img/Royalist/schooner6.png', alt: 'Общий вид' }
+                ]
+            },
+            'Harley-Davidson': {
+                category: 'Транспорт',
+                description: '3D модель мотоцикла Harley-Davidson с фотореалистичными материалами и детализацией.',
+                date: '2023',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Harley/HARLEY-DAVIDSON.jpg', alt: 'Harley-Davidson' },
+                    { type: 'image', src: 'assets/img/Harley/Harley-Devidson_1.jpg', alt: 'Детали мотоцикла' },
+                    { type: 'image', src: 'assets/img/Harley/Harley-Devidson_6.jpg', alt: 'Вид сбоку' },
+                    { type: 'image', src: 'assets/img/Harley/Harley-Devidson_7.jpg', alt: 'Двигатель' },
+                    { type: 'image', src: 'assets/img/Harley/Harley-Devidson_8.jpg', alt: 'Колеса и подвеска' },
+                    { type: 'image', src: 'assets/img/Harley/Harley-Devidson_9.jpg', alt: 'Общий вид' },
+                    { type: 'image', src: 'assets/img/Harley/harley render13_1.png', alt: '3D рендер' }
+                ]
+            },
+            'Изометрический дом': {
+                category: 'Объекты',
+                description: 'Стилизованный изометрический дом с детализированным дизайном и уникальной архитектурой. Модель создана в изометрической проекции с акцентом на чистые линии и гармоничные пропорции.',
+                date: '2023',
+                software: 'Blender',
+                media: [
+                    { type: 'image', src: 'assets/img/House/Isometric art house.png', alt: 'Изометрический дом - основной вид' },
+                    { type: 'image', src: 'assets/img/House/Isometric art house2.png', alt: 'Изометрический дом - альтернативный ракурс' },
+                    { type: 'image', src: 'assets/img/House/Concept by Ricardo Chamizo.PNG', alt: 'Концепт изометрического дома' },
+                    { type: 'image', src: 'assets/img/House/House viewport shading.PNG', alt: 'Вьюпорт шейдинг' },
+                    { type: 'image', src: 'assets/img/House/blocing house.PNG', alt: 'Блокинг модели' },
+                    { type: 'image', src: 'assets/img/House/blocking house.PNG', alt: 'Процесс блокинга' }
+                ]
+            },
+            'Граммофон': {
+                category: 'Объекты',
+                description: 'Винтажный граммофон с детализированными механизмами и реалистичными материалами.',
+                date: '2022',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Grammofone/Grammophone.png', alt: 'Граммофон' },
+                    { type: 'image', src: 'assets/img/Grammofone/Grammophone2.png', alt: 'Детали механизма' },
+                    { type: 'image', src: 'assets/img/Grammofone/Grammophone3.png', alt: 'Текстуры' },
+                    { type: 'image', src: 'assets/img/Grammofone/Grammophone4.png', alt: 'Альтернативный вид' },
+                    { type: 'image', src: 'assets/img/Grammofone/Grammophone_REF.png', alt: 'Референсы' }
+                ]
+            },
+            'Промышленные клапаны': {
+                category: 'Промышленность',
+                description: 'Серия промышленных клапанов для пищевой и химической промышленности. Модели включают микс-пруф клапаны и запорные клапаны с детализированными механизмами.',
+                date: '2022',
+                software: 'Blender, SolidWorks',
+                media: [
+                    { type: 'image', src: 'assets/img/Factory/1 Mixproof Bottom Valve .png', alt: 'Микс-пруф клапан' },
+                    { type: 'image', src: 'assets/img/Factory/1 Mixproof Bottom Valve CUT.png', alt: 'Разрез микс-пруф клапана' },
+                    { type: 'image', src: 'assets/img/Factory/1 Shut-off Valve N_F.png', alt: 'Запорный клапан Н/Ф' },
+                    { type: 'image', src: 'assets/img/Factory/1 Shut-off Valve N_F CUT.png', alt: 'Разрез запорного клапана' },
+                    { type: 'image', src: 'assets/img/Factory/tulpe3.png', alt: 'Клапан Tulpe 3' },
+                    { type: 'image', src: 'assets/img/Factory/tulpe8.png', alt: 'Клапан Tulpe 8' }
+                ]
+            },
+            'Промышленные системы': {
+                category: 'Промышленность',
+                description: 'Комплексные промышленные системы и станции, включая подъемные станции, винтовые передачи и звездочные колонны. Модели созданы для технической документации и визуализации.',
+                date: '2022',
+                software: 'Blender, SolidWorks',
+                media: [
+                    { type: 'image', src: 'assets/img/Factory/LIFT STATION1.png', alt: 'Подъемная станция 1' },
+                    { type: 'image', src: 'assets/img/Factory/LIFT STATION2.png', alt: 'Подъемная станция 2' },
+                    { type: 'image', src: 'assets/img/Factory/LIFT STATION6.png', alt: 'Подъемная станция 6' },
+                    { type: 'image', src: 'assets/img/Factory/screw transmission 4.png', alt: 'Винтовая передача 4' },
+                    { type: 'image', src: 'assets/img/Factory/screw transmission 5.png', alt: 'Винтовая передача 5' },
+                    { type: 'image', src: 'assets/img/Factory/star column 1.png', alt: 'Звездочная колонна' },
+                    { type: 'image', src: 'assets/img/Factory/star column 5.png', alt: 'Звездочная колонна 5' }
+                ]
+            },
+            'Промышленные редукторы': {
+                category: 'Промышленность',
+                description: 'Серия промышленных редукторов и механических передач. Детализированные модели с точным воспроизведением зубчатых зацеплений и механических соединений.',
+                date: '2022',
+                software: 'Blender, SolidWorks',
+                media: [
+                    { type: 'image', src: 'assets/img/Factory/gearbox 1.png', alt: 'Редуктор 1' },
+                    { type: 'image', src: 'assets/img/Factory/gearbox 2.png', alt: 'Редуктор 2' },
+                    { type: 'image', src: 'assets/img/Factory/gearbox 3.png', alt: 'Редуктор 3' },
+                    { type: 'image', src: 'assets/img/Factory/115.png', alt: 'Механический узел 115' },
+                    { type: 'image', src: 'assets/img/Factory/116.png', alt: 'Механический узел 116' },
+                    { type: 'image', src: 'assets/img/Factory/117.png', alt: 'Механический узел 117' },
+                    { type: 'image', src: 'assets/img/Factory/118.png', alt: 'Механический узел 118' }
+                ]
+            },
+            'Промышленное оборудование': {
+                category: 'Промышленность',
+                description: 'Различные элементы промышленного оборудования: датчики, лабораторное оборудование, технологические узлы. Модели созданы для каталогов и технической документации.',
+                date: '2022',
+                software: 'Blender, SolidWorks',
+                media: [
+                    { type: 'image', src: 'assets/img/Factory/Handheld sensor0065.png', alt: 'Ручной датчик' },
+                    { type: 'image', src: 'assets/img/Factory/lablin0041.png', alt: 'Лабораторное оборудование' },
+                    { type: 'image', src: 'assets/img/Factory/Daily agenda0236.png', alt: 'Технологический узел 236' },
+                    { type: 'image', src: 'assets/img/Factory/Daily agenda20287.png', alt: 'Технологический узел 20287' },
+                    { type: 'image', src: 'assets/img/Factory/norv practic 30060.png', alt: 'Норвежская практика 30060' },
+                    { type: 'image', src: 'assets/img/Factory/Снимок101.png', alt: 'Технический снимок 101' },
+                    { type: 'image', src: 'assets/img/Factory/Снимок130.png', alt: 'Технический снимок 130' }
+                ]
+            },
+            'Берти и Брамбл': {
+                category: 'Персонажи',
+                description: 'Стилизованные персонажи Берти и Брамбл с уникальным дизайном и выразительными чертами.',
+                date: '2023',
+                software: 'Blender, ZBrush, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Bertie/berty.png', alt: 'Берти - основной вид' },
+                    { type: 'image', src: 'assets/img/Bertie/berty1.png', alt: 'Берти - детализация' },
+                    { type: 'image', src: 'assets/img/Bertie/berty2.png', alt: 'Берти - текстуры' },
+                    { type: 'image', src: 'assets/img/Bertie/berty3.png', alt: 'Берти - экспорт' },
+                    { type: 'image', src: 'assets/img/Bertie/Bramble.jpg', alt: 'Брамбл' },
+                    { type: 'image', src: 'assets/img/Bertie/Bramble2.jpg', alt: 'Брамбл - альтернативный вид' },
+                    { type: 'image', src: 'assets/img/Bertie/Bramble4.jpg', alt: 'Брамбл - детали' },
+                    { type: 'image', src: 'assets/img/Bertie/Bramble5.jpg', alt: 'Брамбл - текстуры' }
+                ]
+            },
+            'Меха': {
+                category: 'Персонажи',
+                description: 'Крупномасштабная механизированная модель с сложной анимацией и детализированными системами.',
+                date: '2024',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Mecha/model vs concept.jpg', alt: 'Меха - сравнение с концептом' },
+                    { type: 'image', src: 'assets/img/Mecha/MECHA.jpg', alt: 'Меха - основной вид' },
+                    { type: 'image', src: 'assets/img/Mecha/MECHA2.png', alt: 'Меха - детализация' },
+                    { type: 'image', src: 'assets/img/Mecha/MECHA3.jpg', alt: 'Меха - текстуры' },
+                    { type: 'image', src: 'assets/img/Mecha/MECHA4.jpg', alt: 'Меха - альтернативный ракурс' },
+                    { type: 'video', src: 'assets/img/Mecha/animation mecha.mp4', alt: 'Анимация мехи' },
+                    { type: 'video', src: 'assets/img/Mecha/SITS MECHA.mp4', alt: 'Демонстрация мехи' }
+                ]
+            },
+            'Т-90 Моделирование': {
+                category: 'Транспорт',
+                description: 'Детализированная модель танка Т-90 с системами ШТОРА и ПР-К, созданная для технической визуализации.',
+                date: '2023',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Modeling/t90.jpg', alt: 'Т-90 - основной вид' },
+                    { type: 'image', src: 'assets/img/Modeling/t90_2.jpg', alt: 'Т-90 - вид сбоку' },
+                    { type: 'image', src: 'assets/img/Modeling/t90_3.jpg', alt: 'Т-90 - детали' },
+                    { type: 'image', src: 'assets/img/Modeling/T-90 SHTORA.PNG', alt: 'Система ШТОРА' },
+                    { type: 'image', src: 'assets/img/Modeling/T-90 SHTORA 1.PNG', alt: 'ШТОРА - детализация' },
+                    { type: 'image', src: 'assets/img/Modeling/t90IR.PNG', alt: 'Инфракрасная система' },
+                    { type: 'image', src: 'assets/img/Modeling/т-90 ПР-К.PNG', alt: 'Система ПР-К' }
+                ]
+            }
+        };
+
         // Мобильное меню
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const nav = document.querySelector('nav');
@@ -866,9 +1400,7 @@
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Убираем активный класс у всех кнопок
                 filterBtns.forEach(b => b.classList.remove('active'));
-                // Добавляем активный класс текущей кнопке
                 btn.classList.add('active');
 
                 const filter = btn.getAttribute('data-filter');
@@ -881,6 +1413,175 @@
                     }
                 });
             });
+        });
+
+        // Модальное окно для проектов с галереей
+        const modal = document.getElementById('project-modal');
+        const modalClose = document.querySelector('.modal-close');
+        const modalTitle = document.querySelector('.modal-title');
+        const modalDescription = document.querySelector('.modal-description');
+        const galleryMain = document.querySelector('.main-media');
+        const galleryThumbnails = document.querySelector('.gallery-thumbnails');
+        const galleryPrev = document.querySelector('.gallery-prev');
+        const galleryNext = document.querySelector('.gallery-next');
+        const projectCategory = document.querySelector('.project-category');
+        const projectDate = document.querySelector('.project-date');
+        const projectSoftware = document.querySelector('.project-software');
+
+        let currentProject = null;
+        let currentMediaIndex = 0;
+
+        // Функция для загрузки медиа в галерею
+        function loadMediaToGallery(mediaArray) {
+            galleryMain.innerHTML = '';
+            galleryThumbnails.innerHTML = '';
+            currentMediaIndex = 0;
+
+            if (mediaArray && mediaArray.length > 0) {
+                mediaArray.forEach((media, index) => {
+                    // Основное медиа
+                    if (index === 0) {
+                        if (media.type === 'video') {
+                            galleryMain.innerHTML = `
+                                <video controls autoplay muted style="width: 100%; height: 100%; object-fit: contain;">
+                                    <source src="${media.src}" type="video/mp4">
+                                    Ваш браузер не поддерживает видео.
+                                </video>
+                            `;
+                        } else {
+                            galleryMain.innerHTML = `<img src="${media.src}" alt="${media.alt}" style="width: 100%; height: 100%; object-fit: contain;">`;
+                        }
+                    }
+
+                    // Миниатюры
+                    const thumbnail = document.createElement('div');
+                    thumbnail.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+                    thumbnail.setAttribute('data-index', index);
+                    
+                    if (media.type === 'video') {
+                        thumbnail.innerHTML = `
+                            <div class="thumbnail-video">
+                                <img src="${media.src.replace('.mp4', '.jpg')}" alt="${media.alt}" style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="video-icon">▶</div>
+                            </div>
+                        `;
+                    } else {
+                        thumbnail.innerHTML = `<img src="${media.src}" alt="${media.alt}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                    }
+
+                    thumbnail.addEventListener('click', () => {
+                        showMedia(mediaArray, index);
+                        updateThumbnails(index);
+                    });
+
+                    galleryThumbnails.appendChild(thumbnail);
+                });
+            }
+        }
+
+        // Функция для отображения медиа
+        function showMedia(mediaArray, index) {
+            currentMediaIndex = index;
+            const media = mediaArray[index];
+
+            if (media.type === 'video') {
+                galleryMain.innerHTML = `
+                    <video controls autoplay muted style="width: 100%; height: 100%; object-fit: contain;">
+                        <source src="${media.src}" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                `;
+            } else {
+                galleryMain.innerHTML = `<img src="${media.src}" alt="${media.alt}" style="width: 100%; height: 100%; object-fit: contain;">`;
+            }
+        }
+
+        // Функция для обновления активной миниатюры
+        function updateThumbnails(activeIndex) {
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === activeIndex);
+            });
+        }
+
+        // Обработчики для кнопок навигации галереи
+        galleryPrev.addEventListener('click', () => {
+            if (currentProject && projectData[currentProject]) {
+                const mediaArray = projectData[currentProject].media;
+                currentMediaIndex = (currentMediaIndex - 1 + mediaArray.length) % mediaArray.length;
+                showMedia(mediaArray, currentMediaIndex);
+                updateThumbnails(currentMediaIndex);
+            }
+        });
+
+        galleryNext.addEventListener('click', () => {
+            if (currentProject && projectData[currentProject]) {
+                const mediaArray = projectData[currentProject].media;
+                currentMediaIndex = (currentMediaIndex + 1) % mediaArray.length;
+                showMedia(mediaArray, currentMediaIndex);
+                updateThumbnails(currentMediaIndex);
+            }
+        });
+
+        // Обработчики для клавиатуры
+        document.addEventListener('keydown', (e) => {
+            if (modal.style.display === 'block') {
+                if (e.key === 'ArrowLeft') {
+                    galleryPrev.click();
+                } else if (e.key === 'ArrowRight') {
+                    galleryNext.click();
+                } else if (e.key === 'Escape') {
+                    modal.style.display = 'none';
+                }
+            }
+        });
+
+        // Открытие модального окна при клике на проект
+        portfolioItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const title = item.querySelector('.portfolio-title').textContent;
+                
+                currentProject = title;
+
+                if (projectData[title]) {
+                    const project = projectData[title];
+                    
+                    modalTitle.textContent = title;
+                    modalDescription.textContent = project.description;
+                    projectCategory.textContent = `Категория: ${project.category}`;
+                    projectDate.textContent = `Дата: ${project.date}`;
+                    projectSoftware.textContent = `Программы: ${project.software}`;
+
+                    loadMediaToGallery(project.media);
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    const category = item.getAttribute('data-category');
+                    const mainImage = item.querySelector('.portfolio-img').getAttribute('src');
+                    
+                    modalTitle.textContent = title;
+                    modalDescription.textContent = `Категория: ${category}. Подробное описание проекта будет здесь.`;
+                    projectCategory.textContent = `Категория: ${category}`;
+                    projectDate.textContent = `Дата: информация отсутствует`;
+                    projectSoftware.textContent = `Программы: информация отсутствует`;
+
+                    loadMediaToGallery([{ type: 'image', src: mainImage, alt: title }]);
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        modalClose.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
         });
 
         // Плавная прокрутка для навигации
@@ -898,7 +1599,6 @@
                         behavior: 'smooth'
                     });
 
-                    // Закрываем мобильное меню после клика
                     nav.classList.remove('active');
                 }
             });

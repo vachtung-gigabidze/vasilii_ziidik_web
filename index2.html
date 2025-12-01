@@ -3,16 +3,869 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Василий Зядик - 3D Художник</title>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>Василий Зядик | 3D Художник</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Базовые стили на основе предоставленного CSS */
+        :root {
+            /* Цветовая палитра из вашего CSS */
+            --color-primary: #4c6474;      /* color_2 */
+            --color-dark: #191919;         /* color_3 */
+            --color-light: #f7f7f7;        /* color_4 */
+            --color-accent: #ffc03a;       /* color_5 */
+            --color-white: #ffffff;
+            --color-black: #000000;
+            --color-gray: #7f7f7f;
+            --color-overlay: rgba(0, 0, 0, 0.8);
+            
+            /* Шрифты из вашего CSS */
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Raleway', sans-serif;
+            
+            /* Размеры */
+            --container-width: 1200px;
+            --section-padding: 100px 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-dark);
+            color: var(--color-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Типография */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-transform: uppercase;
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--color-accent);
+        }
+
+        .section-center h2::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Кнопки */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            font-family: var(--font-heading);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #ffb21a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 192, 58, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+        }
+
+        /* Шапка */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(25, 25, 25, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 20px 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-white);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--color-accent);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--color-white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--color-accent);
+        }
+
+        nav a:hover:after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--color-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Герой секция */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(var(--color-overlay), var(--color-overlay)), 
+                        url('rocket.jpg') center/cover;
+            padding: 120px 0 80px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            margin-bottom: 1rem;
+            color: var(--color-white);
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-heading);
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+            color: var(--color-accent);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Секции */
+        section {
+            padding: var(--section-padding);
+        }
+
+        .section-center {
+            text-align: center;
+        }
+
+        /* Обо мне */
+        .about {
+            background-color: var(--color-primary);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            color: var(--color-accent);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .skills {
+            margin-top: 2rem;
+        }
+
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-level {
+            height: 100%;
+            background-color: var(--color-accent);
+            transition: width 1s ease-in-out;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            height: 600px;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Портфолио */
+        .portfolio {
+            background-color: var(--color-dark);
+        }
+
+        .portfolio-filter {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            background: transparent;
+            color: var(--color-white);
+            border: 2px solid var(--color-accent);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-body);
+            font-weight: 500;
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background-color: var(--color-accent);
+            color: var(--color-dark);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            aspect-ratio: 4/3;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, var(--color-overlay));
+            padding: 2rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            transform: translateY(0);
+        }
+
+        .portfolio-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-white);
+        }
+
+        .portfolio-category {
+            color: var(--color-accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Контакты */
+        .contact {
+            background-color: var(--color-primary);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--color-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-dark);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-control {
+            padding: 12px 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: var(--color-white);
+            font-family: var(--font-body);
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 2px rgba(255, 192, 58, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Футер */
+        footer {
+            background-color: var(--color-dark);
+            padding: 3rem 0 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--color-white);
+        }
+
+        .footer-logo span {
+            color: var(--color-accent);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: var(--color-white);
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background-color: var(--color-accent);
+            transform: translateY(-3px);
+            color: var(--color-dark);
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            color: var(--color-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Стили для модального окна с галереей */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-overlay);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: var(--color-dark);
+            margin: 50px auto;
+            max-width: 1200px;
+            width: 90%;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--color-accent);
+            border: none;
+            color: var(--color-dark);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: #ffb21a;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 3rem;
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--color-white);
+            text-transform: uppercase;
+        }
+
+        /* Стили для галереи проектов */
+        .project-gallery {
+            margin-bottom: 2rem;
+        }
+
+        .gallery-main {
+            position: relative;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.3);
+            height: 70vh;
+            background-color: var(--color-primary);
+        }
+
+        .main-media {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-main img,
+        .gallery-main video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .gallery-controls {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 1rem;
+        }
+
+        .gallery-prev,
+        .gallery-next {
+            background: var(--color-accent);
+            color: var(--color-dark);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-prev:hover,
+        .gallery-next:hover {
+            background: #ffb21a;
+            transform: scale(1.1);
+        }
+
+        .gallery-thumbnails {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+        }
+
+        .gallery-thumbnails::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .gallery-thumbnails::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .gallery-thumbnails::-webkit-scrollbar-thumb {
+            background: var(--color-accent);
+            border-radius: 3px;
+        }
+
+        .thumbnail {
+            flex: 0 0 auto;
+            width: 80px;
+            height: 60px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .thumbnail:hover {
+            opacity: 0.8;
+        }
+
+        .thumbnail.active {
+            opacity: 1;
+            border-color: var(--color-accent);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumbnail-video {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .thumbnail-video .video-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--color-overlay);
+            color: var(--color-white);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .project-info {
+            margin-top: 2rem;
+        }
+
+        .modal-description {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .project-details {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .project-meta span {
+            font-size: 0.9rem;
+            color: var(--color-gray);
+        }
+
+        .project-meta strong {
+            color: var(--color-accent);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .about-image {
+                height: 400px;
+            }
+            
+            .gallery-main {
+                height: 50vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: var(--color-dark);
+                padding: 2rem;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+
+            .gallery-main {
+                height: 40vh;
+            }
+
+            .gallery-controls {
+                padding: 0 0.5rem;
+            }
+
+            .gallery-prev,
+            .gallery-next {
+                width: 35px;
+                height: 35px;
+                font-size: 1.2rem;
+            }
+
+            .thumbnail {
+                width: 60px;
+                height: 45px;
+            }
+
+            .modal-body {
+                padding: 2rem 1rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .portfolio-filter {
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 6px 15px;
+                font-size: 0.9rem;
+            }
+
+            .gallery-main {
+                height: 30vh;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Шапка -->
     <header>
         <div class="container header-container">
             <a href="#" class="logo">VZ<span>3D</span></a>
-            <button class="mobile-menu-btn">☰</button>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
             <nav>
                 <ul>
                     <li><a href="#home">Главная</a></li>
@@ -26,24 +879,27 @@
 
     <!-- Герой секция -->
     <section class="hero" id="home">
-        <div class="container hero-content">
-            <h1>3D ХУДОЖНИК</h1>
-            <div class="hero-subtitle">ВАСИЛИЙ ЗЯДИК<br>(VASILII ZIADIK)</div>
-            <p>Профессиональный 3D художник с более чем 10-летним опытом создания высококачественных 3D моделей для различных задач</p>
-            <a href="#portfolio" class="btn">Смотреть работы</a>
+        <div class="container">
+            <div class="hero-content">
+                <h1>3D ХУДОЖНИК</h1>
+                <h2 class="hero-subtitle">ВАСИЛИЙ ЗЯДИК</h2>
+                <p>Профессиональный 3D художник с более чем 10-летним опытом создания высококачественных 3D моделей для различных задач</p>
+                <div class="hero-btns">
+                    <a href="#portfolio" class="btn">Смотреть работы</a>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Обо мне -->
     <section class="about" id="about">
         <div class="container">
-            <h2 class="section-center">Обо мне</h2>
+            <h2>Обо мне</h2>
             <div class="about-content">
                 <div class="about-text">
                     <h3>ПРОФЕССИОНАЛЬНЫЙ 3D ХУДОЖНИК</h3>
                     <p>Занимаюсь профессионально 3D моделированием более 10 лет и ориентирован на творчество и качество. Создаю 3D модели по чертежам, фотографиям и справочникам любой сложности для любых задач.</p>
                     <p>Работаю с различными программами, включая Blender 3D, 3D-Coat и другие инструменты для моделирования, текстурирования и анимации.</p>
-                    
                     <div class="skills">
                         <div class="skill-item">
                             <div class="skill-name">
@@ -75,10 +931,7 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <!-- Замените на реальное фото -->
-                    <div style=" background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark) 100%); display: flex; align-items: center; justify-content: center; color: white;">
-                       <img src="./about.jpg">
-                    </div>
+                    <img src="./about.jpg" alt="Василий Зядик">
                 </div>
             </div>
         </div>
@@ -93,34 +946,134 @@
                 <button class="filter-btn" data-filter="transport">Транспорт</button>
                 <button class="filter-btn" data-filter="characters">Персонажи</button>
                 <button class="filter-btn" data-filter="objects">Объекты</button>
+                <button class="filter-btn" data-filter="industrial">Промышленность</button>
             </div>
             <div class="portfolio-grid">
-                <!-- Примеры работ -->
+                <!-- Локомотив ФД20-1562 -->
                 <div class="portfolio-item" data-category="transport">
-                    <img src="vasilii-ziadik-fd20-1562.jpg" alt="Локомотив ФД20-1562" class="portfolio-img">
+                    <img src="assets/img/Locomotive/vasilii-ziadik-fd20-1562.jpg" alt="Локомотив ФД20-1562" class="portfolio-img">
                     <div class="portfolio-overlay">
                         <h3 class="portfolio-title">Локомотив ФД20-1562</h3>
                         <p class="portfolio-category">Транспорт</p>
                     </div>
                 </div>
-                
+
+                <!-- Robot №17/1 -->
                 <div class="portfolio-item" data-category="characters">
-                    <img src="model vs concept.jpg" alt="Robot №17/1" class="portfolio-img">
+                    <img src="assets/img/Robot №17/robot17_2.jpg" alt="Robot №17/1" class="portfolio-img">
                     <div class="portfolio-overlay">
                         <h3 class="portfolio-title">Robot №17/1</h3>
                         <p class="portfolio-category">Персонажи</p>
                     </div>
                 </div>
-                
+
+                <!-- Револьвер "ZERO NINE" -->
                 <div class="portfolio-item" data-category="objects">
-                    <img src="Grammophone.png" alt="Граммофон" class="portfolio-img">
+                    <img src="assets/img/Zero Nine/smart_scope.jpg" alt="Револьвер ZERO NINE" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Револьвер "ZERO NINE"</h3>
+                        <p class="portfolio-category">Объекты</p>
+                    </div>
+                </div>
+
+                <!-- Шхуна "Роялист" -->
+                <div class="portfolio-item" data-category="transport">
+                    <img src="assets/img/Royalist/Royalist_model_3.JPG" alt="Шхуна Роялист" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Шхуна "Роялист"</h3>
+                        <p class="portfolio-category">Транспорт</p>
+                    </div>
+                </div>
+
+                <!-- Harley-Davidson -->
+                <div class="portfolio-item" data-category="transport">
+                    <img src="assets/img/Harley/HARLEY-DAVIDSON.jpg" alt="Harley-Davidson" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Harley-Davidson</h3>
+                        <p class="portfolio-category">Транспорт</p>
+                    </div>
+                </div>
+
+                <!-- Изометрический дом -->
+                <div class="portfolio-item" data-category="objects">
+                    <img src="assets/img/House/Isometric art house.png" alt="Изометрический дом" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Изометрический дом</h3>
+                        <p class="portfolio-category">Объекты</p>
+                    </div>
+                </div>
+
+                <!-- Граммофон -->
+                <div class="portfolio-item" data-category="objects">
+                    <img src="assets/img/Grammofone/Grammophone.png" alt="Граммофон" class="portfolio-img">
                     <div class="portfolio-overlay">
                         <h3 class="portfolio-title">Граммофон</h3>
                         <p class="portfolio-category">Объекты</p>
                     </div>
                 </div>
-                
-                <!-- Добавьте больше работ по аналогии -->
+
+                <!-- Промышленные клапаны -->
+                <div class="portfolio-item" data-category="industrial">
+                    <img src="assets/img/Factory/1 Mixproof Bottom Valve .png" alt="Промышленные клапаны" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Промышленные клапаны</h3>
+                        <p class="portfolio-category">Промышленность</p>
+                    </div>
+                </div>
+
+                <!-- Промышленные системы -->
+                <div class="portfolio-item" data-category="industrial">
+                    <img src="assets/img/Factory/LIFT STATION1.png" alt="Промышленные системы" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Промышленные системы</h3>
+                        <p class="portfolio-category">Промышленность</p>
+                    </div>
+                </div>
+
+                <!-- Промышленные редукторы -->
+                <div class="portfolio-item" data-category="industrial">
+                    <img src="assets/img/Factory/gearbox 1.png" alt="Промышленные редукторы" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Промышленные редукторы</h3>
+                        <p class="portfolio-category">Промышленность</p>
+                    </div>
+                </div>
+
+                <!-- Промышленное оборудование -->
+                <div class="portfolio-item" data-category="industrial">
+                    <img src="assets/img/Factory/Handheld sensor0065.png" alt="Промышленное оборудование" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Промышленное оборудование</h3>
+                        <p class="portfolio-category">Промышленность</p>
+                    </div>
+                </div>
+
+                <!-- Берти и Брамбл -->
+                <div class="portfolio-item" data-category="characters">
+                    <img src="assets/img/Bertie/berty.png" alt="Берти и Брамбл" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Берти и Брамбл</h3>
+                        <p class="portfolio-category">Персонажи</p>
+                    </div>
+                </div>
+
+                <!-- Меха -->
+                <div class="portfolio-item" data-category="characters">
+                    <img src="assets/img/Mecha/model vs concept.jpg" alt="Меха" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Меха</h3>
+                        <p class="portfolio-category">Персонажи</p>
+                    </div>
+                </div>
+
+                <!-- Т-90 Моделирование -->
+                <div class="portfolio-item" data-category="transport">
+                    <img src="assets/img/Modeling/t90.jpg" alt="Т-90 Моделирование" class="portfolio-img">
+                    <div class="portfolio-overlay">
+                        <h3 class="portfolio-title">Т-90 Моделирование</h3>
+                        <p class="portfolio-category">Транспорт</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -132,24 +1085,39 @@
             <div class="contact-content">
                 <div class="contact-info">
                     <div class="contact-item">
-                        <div class="contact-icon">📍</div>
-                        <div>
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text">
                             <h4>Адрес</h4>
                             <p>Казань, Россия</p>
                         </div>
                     </div>
                     <div class="contact-item">
-                        <div class="contact-icon">✉️</div>
-                        <div>
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
                             <h4>Email</h4>
                             <p>vasilii@ziadik.ru</p>
                         </div>
                     </div>
                     <div class="contact-item">
-                        <div class="contact-icon">📞</div>
-                        <div>
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-text">
                             <h4>Телефон</h4>
-                            <p>+79028583857</p>
+                            <p>+7 (902) 858-38-57</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Профессия</h4>
+                            <p>3D Художник</p>
                         </div>
                     </div>
                 </div>
@@ -161,7 +1129,7 @@
                         <input type="email" class="form-control" placeholder="Ваш email" required>
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" placeholder="Ваше сообщение" required></textarea>
+                        <textarea class="form-control" placeholder="Ваше сообщение" rows="5" required></textarea>
                     </div>
                     <button type="submit" class="btn">Отправить сообщение</button>
                 </form>
@@ -176,23 +1144,265 @@
                 <div class="footer-logo">VZ<span>3D</span></div>
                 <p>3D ХУДОЖНИК ВАСИЛИЙ ЗЯДИК</p>
                 <div class="social-links">
-                    <a href="#" class="social-link">in</a>
-                    <a href="#" class="social-link">fb</a>
-                    <a href="#" class="social-link">ig</a>
+                    <a href="#" class="social-link"><i class="fab fa-behance"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-dribbble"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-artstation"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
             <div class="copyright">
                 <p>© 2025 Василий Зядик. Все права защищены.</p>
-                <p>Все работы в данном портфолио выполнены мной лично</p>
+                <p>Все работы в данном портфолио (моделирование, текстурирование, анимация) выполнены мной лично, без использования совместного труда.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Модальное окно для проектов с галереей -->
+    <div class="modal" id="project-modal">
+        <div class="modal-content">
+            <button class="modal-close"><i class="fas fa-times"></i></button>
+            <div class="modal-body">
+                <h2 class="modal-title">Название проекта</h2>
+                
+                <!-- Галерея проекта -->
+                <div class="project-gallery">
+                    <!-- Основное изображение/видео -->
+                    <div class="gallery-main">
+                        <div class="main-media">
+                            <!-- Здесь будет отображаться основное изображение или видео -->
+                        </div>
+                        <div class="gallery-controls">
+                            <button class="gallery-prev"><i class="fas fa-chevron-left"></i></button>
+                            <button class="gallery-next"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Миниатюры галереи -->
+                    <div class="gallery-thumbnails">
+                        <!-- Миниатюры будут добавляться динамически -->
+                    </div>
+                </div>
+                
+                <div class="project-info">
+                    <p class="modal-description">Описание проекта будет здесь</p>
+                    <div class="project-details">
+                        <div class="project-meta">
+                            <span><strong>Категория:</strong> <span class="project-category"></span></span>
+                            <span><strong>Дата:</strong> <span class="project-date"></span></span>
+                            <span><strong>Программы:</strong> <span class="project-software"></span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Данные для галереи каждого проекта
+        const projectData = {
+            'Локомотив ФД20-1562': {
+                category: 'Транспорт',
+                description: 'Детализированная 3D модель локомотива ФД20-1562, созданная по историческим чертежам. Модель включает высокодетализированные текстуры и анимацию механизмов.',
+                date: '2024',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Locomotive/vasilii-ziadik-fd20-1562.jpg', alt: 'Локомотив ФД20-1562 - вид спереди' },
+                    { type: 'image', src: 'assets/img/Locomotive/ФД20_1562_01.jpg', alt: 'Детализация локомотива' },
+                    { type: 'image', src: 'assets/img/Locomotive/ФД20_1562_2.jpg', alt: 'Вид сбоку' },
+                    { type: 'image', src: 'assets/img/Locomotive/ФД20_1562_3.jpg', alt: 'Детали механизмов' },
+                    { type: 'image', src: 'assets/img/Locomotive/fd20 ref.PNG', alt: 'Референсы и чертежи' }
+                ]
+            },
+            'Robot №17/1': {
+                category: 'Персонажи',
+                description: 'Футуристический робот с уникальным дизайном и анимацией. Модель включает риг для анимации и различные текстуры.',
+                date: '2024',
+                software: 'Blender, ZBrush, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Robot №17/robot17_2.jpg', alt: 'Robot №17/1 - основное изображение' },
+                    { type: 'image', src: 'assets/img/Robot №17/rob1.png', alt: 'Детализация модели' },
+                    { type: 'image', src: 'assets/img/Robot №17/prtscr.jpg', alt: 'Вирфрейм модель' }
+                ]
+            },
+            'Револьвер "ZERO NINE"': {
+                category: 'Объекты',
+                description: 'Концептуальный револьвер в стиле киберпанк. Высокополигональная модель с PBR текстурами.',
+                date: '2023',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Zero Nine/smart_scope.jpg', alt: 'Револьвер ZERO NINE' },
+                    { type: 'image', src: 'assets/img/Zero Nine/smart_scope2.jpg', alt: 'Детали револьвера' },
+                    { type: 'image', src: 'assets/img/Zero Nine/smart_scope3.jpg', alt: 'Материалы и текстуры' },
+                    { type: 'image', src: 'assets/img/Zero Nine/smart_scope4.jpg', alt: 'Альтернативный вид' },
+                    { type: 'video', src: 'assets/img/Zero Nine/smart_scope11.mp4', alt: '3D обзор модели' }
+                ]
+            },
+            'Шхуна "Роялист"': {
+                category: 'Транспорт',
+                description: 'Историческая парусная шхуна с детализированными парусами и такелажем. Модель подготовлена для использования в играх и визуализациях.',
+                date: '2023',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Royalist/Royalist_model_3.JPG', alt: 'Шхуна Роялист' },
+                    { type: 'image', src: 'assets/img/Royalist/Royalist.png', alt: '3D модель шхуны' },
+                    { type: 'image', src: 'assets/img/Royalist/schooner3.png', alt: 'Детали парусов' },
+                    { type: 'image', src: 'assets/img/Royalist/schooner5.png', alt: 'Текстуры и материалы' },
+                    { type: 'image', src: 'assets/img/Royalist/schooner6.png', alt: 'Общий вид' }
+                ]
+            },
+            'Harley-Davidson': {
+                category: 'Транспорт',
+                description: '3D модель мотоцикла Harley-Davidson с фотореалистичными материалами и детализацией.',
+                date: '2023',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Harley/HARLEY-DAVIDSON.jpg', alt: 'Harley-Davidson' },
+                    { type: 'image', src: 'assets/img/Harley/Harley-Devidson_1.jpg', alt: 'Детали мотоцикла' },
+                    { type: 'image', src: 'assets/img/Harley/Harley-Devidson_6.jpg', alt: 'Вид сбоку' },
+                    { type: 'image', src: 'assets/img/Harley/Harley-Devidson_7.jpg', alt: 'Двигатель' },
+                    { type: 'image', src: 'assets/img/Harley/Harley-Devidson_8.jpg', alt: 'Колеса и подвеска' },
+                    { type: 'image', src: 'assets/img/Harley/Harley-Devidson_9.jpg', alt: 'Общий вид' },
+                    { type: 'image', src: 'assets/img/Harley/harley render13_1.png', alt: '3D рендер' }
+                ]
+            },
+            'Изометрический дом': {
+                category: 'Объекты',
+                description: 'Стилизованный изометрический дом с детализированным дизайном и уникальной архитектурой. Модель создана в изометрической проекции с акцентом на чистые линии и гармоничные пропорции.',
+                date: '2023',
+                software: 'Blender',
+                media: [
+                    { type: 'image', src: 'assets/img/House/Isometric art house.png', alt: 'Изометрический дом - основной вид' },
+                    { type: 'image', src: 'assets/img/House/Isometric art house2.png', alt: 'Изометрический дом - альтернативный ракурс' },
+                    { type: 'image', src: 'assets/img/House/Concept by Ricardo Chamizo.PNG', alt: 'Концепт изометрического дома' },
+                    { type: 'image', src: 'assets/img/House/House viewport shading.PNG', alt: 'Вьюпорт шейдинг' },
+                    { type: 'image', src: 'assets/img/House/blocing house.PNG', alt: 'Блокинг модели' },
+                    { type: 'image', src: 'assets/img/House/blocking house.PNG', alt: 'Процесс блокинга' }
+                ]
+            },
+            'Граммофон': {
+                category: 'Объекты',
+                description: 'Винтажный граммофон с детализированными механизмами и реалистичными материалами.',
+                date: '2022',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Grammofone/Grammophone.png', alt: 'Граммофон' },
+                    { type: 'image', src: 'assets/img/Grammofone/Grammophone2.png', alt: 'Детали механизма' },
+                    { type: 'image', src: 'assets/img/Grammofone/Grammophone3.png', alt: 'Текстуры' },
+                    { type: 'image', src: 'assets/img/Grammofone/Grammophone4.png', alt: 'Альтернативный вид' },
+                    { type: 'image', src: 'assets/img/Grammofone/Grammophone_REF.png', alt: 'Референсы' }
+                ]
+            },
+            'Промышленные клапаны': {
+                category: 'Промышленность',
+                description: 'Серия промышленных клапанов для пищевой и химической промышленности. Модели включают микс-пруф клапаны и запорные клапаны с детализированными механизмами.',
+                date: '2022',
+                software: 'Blender, SolidWorks',
+                media: [
+                    { type: 'image', src: 'assets/img/Factory/1 Mixproof Bottom Valve .png', alt: 'Микс-пруф клапан' },
+                    { type: 'image', src: 'assets/img/Factory/1 Mixproof Bottom Valve CUT.png', alt: 'Разрез микс-пруф клапана' },
+                    { type: 'image', src: 'assets/img/Factory/1 Shut-off Valve N_F.png', alt: 'Запорный клапан Н/Ф' },
+                    { type: 'image', src: 'assets/img/Factory/1 Shut-off Valve N_F CUT.png', alt: 'Разрез запорного клапана' },
+                    { type: 'image', src: 'assets/img/Factory/tulpe3.png', alt: 'Клапан Tulpe 3' },
+                    { type: 'image', src: 'assets/img/Factory/tulpe8.png', alt: 'Клапан Tulpe 8' }
+                ]
+            },
+            'Промышленные системы': {
+                category: 'Промышленность',
+                description: 'Комплексные промышленные системы и станции, включая подъемные станции, винтовые передачи и звездочные колонны. Модели созданы для технической документации и визуализации.',
+                date: '2022',
+                software: 'Blender, SolidWorks',
+                media: [
+                    { type: 'image', src: 'assets/img/Factory/LIFT STATION1.png', alt: 'Подъемная станция 1' },
+                    { type: 'image', src: 'assets/img/Factory/LIFT STATION2.png', alt: 'Подъемная станция 2' },
+                    { type: 'image', src: 'assets/img/Factory/LIFT STATION6.png', alt: 'Подъемная станция 6' },
+                    { type: 'image', src: 'assets/img/Factory/screw transmission 4.png', alt: 'Винтовая передача 4' },
+                    { type: 'image', src: 'assets/img/Factory/screw transmission 5.png', alt: 'Винтовая передача 5' },
+                    { type: 'image', src: 'assets/img/Factory/star column 1.png', alt: 'Звездочная колонна' },
+                    { type: 'image', src: 'assets/img/Factory/star column 5.png', alt: 'Звездочная колонна 5' }
+                ]
+            },
+            'Промышленные редукторы': {
+                category: 'Промышленность',
+                description: 'Серия промышленных редукторов и механических передач. Детализированные модели с точным воспроизведением зубчатых зацеплений и механических соединений.',
+                date: '2022',
+                software: 'Blender, SolidWorks',
+                media: [
+                    { type: 'image', src: 'assets/img/Factory/gearbox 1.png', alt: 'Редуктор 1' },
+                    { type: 'image', src: 'assets/img/Factory/gearbox 2.png', alt: 'Редуктор 2' },
+                    { type: 'image', src: 'assets/img/Factory/gearbox 3.png', alt: 'Редуктор 3' },
+                    { type: 'image', src: 'assets/img/Factory/115.png', alt: 'Механический узел 115' },
+                    { type: 'image', src: 'assets/img/Factory/116.png', alt: 'Механический узел 116' },
+                    { type: 'image', src: 'assets/img/Factory/117.png', alt: 'Механический узел 117' },
+                    { type: 'image', src: 'assets/img/Factory/118.png', alt: 'Механический узел 118' }
+                ]
+            },
+            'Промышленное оборудование': {
+                category: 'Промышленность',
+                description: 'Различные элементы промышленного оборудования: датчики, лабораторное оборудование, технологические узлы. Модели созданы для каталогов и технической документации.',
+                date: '2022',
+                software: 'Blender, SolidWorks',
+                media: [
+                    { type: 'image', src: 'assets/img/Factory/Handheld sensor0065.png', alt: 'Ручной датчик' },
+                    { type: 'image', src: 'assets/img/Factory/lablin0041.png', alt: 'Лабораторное оборудование' },
+                    { type: 'image', src: 'assets/img/Factory/Daily agenda0236.png', alt: 'Технологический узел 236' },
+                    { type: 'image', src: 'assets/img/Factory/Daily agenda20287.png', alt: 'Технологический узел 20287' },
+                    { type: 'image', src: 'assets/img/Factory/norv practic 30060.png', alt: 'Норвежская практика 30060' },
+                    { type: 'image', src: 'assets/img/Factory/Снимок101.png', alt: 'Технический снимок 101' },
+                    { type: 'image', src: 'assets/img/Factory/Снимок130.png', alt: 'Технический снимок 130' }
+                ]
+            },
+            'Берти и Брамбл': {
+                category: 'Персонажи',
+                description: 'Стилизованные персонажи Берти и Брамбл с уникальным дизайном и выразительными чертами.',
+                date: '2023',
+                software: 'Blender, ZBrush, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Bertie/berty.png', alt: 'Берти - основной вид' },
+                    { type: 'image', src: 'assets/img/Bertie/berty1.png', alt: 'Берти - детализация' },
+                    { type: 'image', src: 'assets/img/Bertie/berty2.png', alt: 'Берти - текстуры' },
+                    { type: 'image', src: 'assets/img/Bertie/berty3.png', alt: 'Берти - экспорт' },
+                    { type: 'image', src: 'assets/img/Bertie/Bramble.jpg', alt: 'Брамбл' },
+                    { type: 'image', src: 'assets/img/Bertie/Bramble2.jpg', alt: 'Брамбл - альтернативный вид' },
+                    { type: 'image', src: 'assets/img/Bertie/Bramble4.jpg', alt: 'Брамбл - детали' },
+                    { type: 'image', src: 'assets/img/Bertie/Bramble5.jpg', alt: 'Брамбл - текстуры' }
+                ]
+            },
+            'Меха': {
+                category: 'Персонажи',
+                description: 'Крупномасштабная механизированная модель с сложной анимацией и детализированными системами.',
+                date: '2024',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Mecha/model vs concept.jpg', alt: 'Меха - сравнение с концептом' },
+                    { type: 'image', src: 'assets/img/Mecha/MECHA.jpg', alt: 'Меха - основной вид' },
+                    { type: 'image', src: 'assets/img/Mecha/MECHA2.png', alt: 'Меха - детализация' },
+                    { type: 'image', src: 'assets/img/Mecha/MECHA3.jpg', alt: 'Меха - текстуры' },
+                    { type: 'image', src: 'assets/img/Mecha/MECHA4.jpg', alt: 'Меха - альтернативный ракурс' },
+                    { type: 'video', src: 'assets/img/Mecha/animation mecha.mp4', alt: 'Анимация мехи' },
+                    { type: 'video', src: 'assets/img/Mecha/SITS MECHA.mp4', alt: 'Демонстрация мехи' }
+                ]
+            },
+            'Т-90 Моделирование': {
+                category: 'Транспорт',
+                description: 'Детализированная модель танка Т-90 с системами ШТОРА и ПР-К, созданная для технической визуализации.',
+                date: '2023',
+                software: 'Blender, Substance Painter',
+                media: [
+                    { type: 'image', src: 'assets/img/Modeling/t90.jpg', alt: 'Т-90 - основной вид' },
+                    { type: 'image', src: 'assets/img/Modeling/t90_2.jpg', alt: 'Т-90 - вид сбоку' },
+                    { type: 'image', src: 'assets/img/Modeling/t90_3.jpg', alt: 'Т-90 - детали' },
+                    { type: 'image', src: 'assets/img/Modeling/T-90 SHTORA.PNG', alt: 'Система ШТОРА' },
+                    { type: 'image', src: 'assets/img/Modeling/T-90 SHTORA 1.PNG', alt: 'ШТОРА - детализация' },
+                    { type: 'image', src: 'assets/img/Modeling/t90IR.PNG', alt: 'Инфракрасная система' },
+                    { type: 'image', src: 'assets/img/Modeling/т-90 ПР-К.PNG', alt: 'Система ПР-К' }
+                ]
+            }
+        };
+
         // Мобильное меню
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const nav = document.querySelector('nav');
-        
+
         mobileMenuBtn.addEventListener('click', () => {
             nav.classList.toggle('active');
         });
@@ -200,37 +1410,215 @@
         // Фильтрация портфолио
         const filterBtns = document.querySelectorAll('.filter-btn');
         const portfolioItems = document.querySelectorAll('.portfolio-item');
-        
+
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Убираем активный класс у всех кнопок
                 filterBtns.forEach(b => b.classList.remove('active'));
-                // Добавляем активный класс текущей кнопке
                 btn.classList.add('active');
-                
+
                 const filter = btn.getAttribute('data-filter');
-                
+
                 portfolioItems.forEach(item => {
                     if (filter === 'all' || item.getAttribute('data-category') === filter) {
                         item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                        }, 50);
                     } else {
-                        item.style.display = 'none';
+                        item.style.opacity = '0';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
                     }
                 });
             });
         });
 
-        // Плавная прокрутка
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+        // Модальное окно для проектов с галереей
+        const modal = document.getElementById('project-modal');
+        const modalClose = document.querySelector('.modal-close');
+        const modalTitle = document.querySelector('.modal-title');
+        const modalDescription = document.querySelector('.modal-description');
+        const galleryMain = document.querySelector('.main-media');
+        const galleryThumbnails = document.querySelector('.gallery-thumbnails');
+        const galleryPrev = document.querySelector('.gallery-prev');
+        const galleryNext = document.querySelector('.gallery-next');
+        const projectCategory = document.querySelector('.project-category');
+        const projectDate = document.querySelector('.project-date');
+        const projectSoftware = document.querySelector('.project-software');
+
+        let currentProject = null;
+        let currentMediaIndex = 0;
+
+        // Функция для загрузки медиа в галерею
+        function loadMediaToGallery(mediaArray) {
+            galleryMain.innerHTML = '';
+            galleryThumbnails.innerHTML = '';
+            currentMediaIndex = 0;
+
+            if (mediaArray && mediaArray.length > 0) {
+                mediaArray.forEach((media, index) => {
+                    // Основное медиа
+                    if (index === 0) {
+                        if (media.type === 'video') {
+                            galleryMain.innerHTML = `
+                                <video controls autoplay muted style="width: 100%; height: 100%; object-fit: contain;">
+                                    <source src="${media.src}" type="video/mp4">
+                                    Ваш браузер не поддерживает видео.
+                                </video>
+                            `;
+                        } else {
+                            galleryMain.innerHTML = `<img src="${media.src}" alt="${media.alt}" style="width: 100%; height: 100%; object-fit: contain;">`;
+                        }
+                    }
+
+                    // Миниатюры
+                    const thumbnail = document.createElement('div');
+                    thumbnail.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+                    thumbnail.setAttribute('data-index', index);
+                    
+                    if (media.type === 'video') {
+                        thumbnail.innerHTML = `
+                            <div class="thumbnail-video">
+                                <img src="${media.src.replace('.mp4', '.jpg')}" alt="${media.alt}" style="width: 100%; height: 100%; object-fit: cover;">
+                                <div class="video-icon"><i class="fas fa-play"></i></div>
+                            </div>
+                        `;
+                    } else {
+                        thumbnail.innerHTML = `<img src="${media.src}" alt="${media.alt}" style="width: 100%; height: 100%; object-fit: cover;">`;
+                    }
+
+                    thumbnail.addEventListener('click', () => {
+                        showMedia(mediaArray, index);
+                        updateThumbnails(index);
                     });
-                    // Закрываем мобильное меню
+
+                    galleryThumbnails.appendChild(thumbnail);
+                });
+            }
+        }
+
+        // Функция для отображения медиа
+        function showMedia(mediaArray, index) {
+            currentMediaIndex = index;
+            const media = mediaArray[index];
+
+            if (media.type === 'video') {
+                galleryMain.innerHTML = `
+                    <video controls autoplay muted style="width: 100%; height: 100%; object-fit: contain;">
+                        <source src="${media.src}" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                `;
+            } else {
+                galleryMain.innerHTML = `<img src="${media.src}" alt="${media.alt}" style="width: 100%; height: 100%; object-fit: contain;">`;
+            }
+        }
+
+        // Функция для обновления активной миниатюры
+        function updateThumbnails(activeIndex) {
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === activeIndex);
+            });
+        }
+
+        // Обработчики для кнопок навигации галереи
+        galleryPrev.addEventListener('click', () => {
+            if (currentProject && projectData[currentProject]) {
+                const mediaArray = projectData[currentProject].media;
+                currentMediaIndex = (currentMediaIndex - 1 + mediaArray.length) % mediaArray.length;
+                showMedia(mediaArray, currentMediaIndex);
+                updateThumbnails(currentMediaIndex);
+            }
+        });
+
+        galleryNext.addEventListener('click', () => {
+            if (currentProject && projectData[currentProject]) {
+                const mediaArray = projectData[currentProject].media;
+                currentMediaIndex = (currentMediaIndex + 1) % mediaArray.length;
+                showMedia(mediaArray, currentMediaIndex);
+                updateThumbnails(currentMediaIndex);
+            }
+        });
+
+        // Обработчики для клавиатуры
+        document.addEventListener('keydown', (e) => {
+            if (modal.style.display === 'block') {
+                if (e.key === 'ArrowLeft') {
+                    galleryPrev.click();
+                } else if (e.key === 'ArrowRight') {
+                    galleryNext.click();
+                } else if (e.key === 'Escape') {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+
+        // Открытие модального окна при клике на проект
+        portfolioItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const title = item.querySelector('.portfolio-title').textContent;
+                
+                currentProject = title;
+
+                if (projectData[title]) {
+                    const project = projectData[title];
+                    
+                    modalTitle.textContent = title;
+                    modalDescription.textContent = project.description;
+                    projectCategory.textContent = project.category;
+                    projectDate.textContent = project.date;
+                    projectSoftware.textContent = project.software;
+
+                    loadMediaToGallery(project.media);
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    const category = item.getAttribute('data-category');
+                    const mainImage = item.querySelector('.portfolio-img').getAttribute('src');
+                    
+                    modalTitle.textContent = title;
+                    modalDescription.textContent = `Категория: ${category}. Подробное описание проекта будет здесь.`;
+                    projectCategory.textContent = category;
+                    projectDate.textContent = 'информация отсутствует';
+                    projectSoftware.textContent = 'информация отсутствует';
+
+                    loadMediaToGallery([{ type: 'image', src: mainImage, alt: title }]);
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        modalClose.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Плавная прокрутка для навигации
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+
                     nav.classList.remove('active');
                 }
             });
@@ -241,11 +1629,42 @@
             const header = document.querySelector('header');
             if (window.scrollY > 100) {
                 header.style.backgroundColor = 'rgba(25, 25, 25, 0.98)';
-                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.3)';
             } else {
                 header.style.backgroundColor = 'rgba(25, 25, 25, 0.95)';
                 header.style.boxShadow = 'none';
             }
+        });
+
+        // Обработка формы
+        const contactForm = document.querySelector('.contact-form');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Сообщение отправлено! Я свяжусь с вами в ближайшее время.');
+            contactForm.reset();
+        });
+
+        // Анимация навыков при прокрутке
+        const skillLevels = document.querySelectorAll('.skill-level');
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const skillLevel = entry.target;
+                    const width = skillLevel.style.width;
+                    skillLevel.style.width = '0';
+                    setTimeout(() => {
+                        skillLevel.style.width = width;
+                    }, 300);
+                }
+            });
+        }, observerOptions);
+
+        skillLevels.forEach(skill => {
+            observer.observe(skill);
         });
     </script>
 </body>
